@@ -99,6 +99,7 @@ def main():
 
     while True:
         songname = getwindowtitle()
+        songname = songname.replace(u'\u2019', u'\'').encode('ascii', 'ignore')
         #print songname
         if oldsongname != songname:
             if songname != "Spotify":
