@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 import requests
-import urllib2
+import urllib3
 import time
 import os
 import sys
@@ -31,17 +31,21 @@ def getlyrics(songname):
 	    url = ""
 	    try:
 	        searchurl = "https://www.musixmatch.com/search/%s %s" % (artist, song)
-
 	        searchurl = searchurl.replace(" ","%20")
 
-	        searchresult = urllib2.urlopen(searchurl)
-	        soup = BeautifulSoup(searchresult, 'html.parser')
+		http = urllib3.PoolManager()
+
+	        searchresult = http.request('GET', searchurl)
+
+	        soup = BeautifulSoup(searchresult.data, 'html.parser')
+
 	        li = soup.find('a', {"class": "title"})['href']
+#		print(li)
 	        link = "https://www.musixmatch.com" + li 
 	        url = link 
-	        lyricspage = urllib2.urlopen(url)
+	        lyricspage = http.request("GET", url)
 
-	        soup = BeautifulSoup(lyricspage, 'html.parser')
+	        soup = BeautifulSoup(lyricspage.data, 'html.parser')
 	        lyrics = soup.text.split('"body":"')[1].split('","language"')[0]
 	        lyrics = lyrics.replace("\\n", "\n")
 	        lyrics = lyrics.replace("\\", "")
