@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
 import requests
-import urllib3
 import time
 import os
 import sys
 import re
-
 import subprocess
 import dbus
 
+import urllib3
+urllib3.disable_warnings()
 
 
 def getlyrics(songname):
@@ -25,7 +25,6 @@ def getlyrics(songname):
         song, garbage = song.rsplit(" / ", 1)
     song = re.sub(' \(.*?\)', '', song, flags=re.DOTALL)
 
-
     
     def lyrics_musixmatch(artist, song):
 	    url = ""
@@ -40,7 +39,6 @@ def getlyrics(songname):
 	        soup = BeautifulSoup(searchresult.data, 'html.parser')
 
 	        li = soup.find('a', {"class": "title"})['href']
-#		print(li)
 	        link = "https://www.musixmatch.com" + li 
 	        url = link 
 	        lyricspage = http.request("GET", url)
@@ -54,17 +52,12 @@ def getlyrics(songname):
 	        lyrics = error
 	    return lyrics
 
-
-
     lyrics = lyrics_musixmatch(artist, song)
 
     lyrics = lyrics.replace("&amp;", "&")
     lyrics = lyrics.replace("`", "'")
     lyrics = lyrics.strip()
     return lyrics
-
-
-
 
 def getwindowtitle():
     
@@ -94,8 +87,6 @@ def getwindowtitle():
         windowname = windowname.strip("Spotify - ")
     return(windowname)
 
-
-
 def main():
     os.system("clear")
  
@@ -104,13 +95,14 @@ def main():
     while True:
         songname = getwindowtitle()
         songname = songname.replace(u'\u2019', u'\'').encode('ascii', 'ignore')
-        #print songname
         if oldsongname != songname:
             if songname != "Spotify":
                 oldsongname = songname
                 #os.system("clear")
-
-                print(songname+"\n")
+                print "*" *80
+                print("\n "+songname+"\n")
+                print "*" *80
+                print 
                 lyrics = getlyrics(songname)
                 print(lyrics+"\n")
                 time.sleep(2)
