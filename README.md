@@ -5,18 +5,16 @@ Downloads from [musixmatch](www.musixmatch.com) and displays lyrics to currently
 # running from source
 If you want to run from source you need:
 
-* Python 2.7 (probably any version of Python 2)
+* Python 3
 * pip install -r requirements.txt
-* Open Terminal 
-* Type python and the location of the spotify_lyrics.py file
-    ```python home/username/spotify_lyrics.py ```
-* Now press Enter and see the magic!!!
+* Make sure python-dbus installed in the system
+* RUN AND ENJOY!
 
 
 
 
 # screenshot
-Tested in linux mint 18
+Tested in linux mint 19.1
 
 ![ScreenShot](Screenshot.png)
 
